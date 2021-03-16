@@ -1,0 +1,38 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "target": "es5",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "paths": {
+      "@md-modules/*": ["./modules/*"],
+      "@md-sw-people/*": ["./modules/star-wars/people/*"],
+      "@md-sw-person/*": ["./modules/star-wars/person/*"],
+      "@md-sw-starships/*": ["./modules/star-wars/starships/*"],
+      "@md-sw-starship/*": ["./modules/star-wars/starship/*"],
+      "@md-sw-planets/*": ["./modules/star-wars/planets/*"],
+      "@md-sw-planet/*": ["./modules/star-wars/planet/*"],
+      "@md-star-wars/*": ["./modules/star-wars/*"],
+      "@md-queries/*": ["./modules/shared/queries/*"],
+      "@md-shared/*": ["./modules/shared/*"],
+      "@md-styles/*": ["./modules/shared/styles/*"],
+      "@md-ui/*": ["./modules/shared/components/ui/*"],
+      "@md-utils/*": ["./modules/shared/utils/*"],
+      "@md-utils": ["./modules/shared/utils"],
+      "@md-managers/*": ["./modules/shared/managers/*"],
+      "@md-constants/*": ["./modules/shared/constants/*"],
+    }
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules"]
+}
