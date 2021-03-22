@@ -1,4 +1,4 @@
-export interface Kind {
+export interface Pokemon {
   name: string;
   classification: string;
   designation: string;

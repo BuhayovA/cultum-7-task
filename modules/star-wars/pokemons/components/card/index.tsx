@@ -2,7 +2,7 @@ import * as React from 'react';
 // views
 import { CardWrapper, CardImgWrapper, CardImg, CardFooter, CardFooterTitle, ViewButton } from './views';
 // view components
-import { KindLink } from '../kind-link';
+import { PokemonLink } from '../kind-link';
 
 interface Props {
   id: string;
@@ -12,15 +12,15 @@ interface Props {
 const Card: React.FC<Props> = ({ id, name }) => (
   <CardWrapper key={id}>
     <CardImgWrapper>
-      <CardImg src={'/static/images/Ben-Kenobi.jpg'} alt={`${name}-${id}`} />
+      <CardImg src={'/static/images/007.png'} alt={`${name}-${id}`} />
     </CardImgWrapper>
     <CardFooter>
-      <KindLink pId={id}>
+      <PokemonLink pId={id}>
         <CardFooterTitle>{name}</CardFooterTitle>
-      </KindLink>
-      <KindLink pId={id}>
+      </PokemonLink>
+      <PokemonLink pId={id}>
         <ViewButton>Details</ViewButton>
-      </KindLink>
+      </PokemonLink>
     </CardFooter>
   </CardWrapper>
 );

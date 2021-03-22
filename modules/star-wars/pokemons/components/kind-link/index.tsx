@@ -6,10 +6,10 @@ interface Props {
   pId: string;
 }
 
-const KindLink: React.FC<Props> = ({ pId, children }) => (
-  <Link href='/people/[id]' as={`/species/${pId}`}>
+const PokemonLink: React.FC<Props> = ({ pId, children }) => (
+  <Link href='/pokemons/[id]' as={`/pokemons/${pId}`}>
     <a>{children}</a>
   </Link>
 );
 
-export { KindLink };
+export { PokemonLink };

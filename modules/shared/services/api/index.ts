@@ -1,6 +1,6 @@
 import axios from 'axios';
-// import { getSpecies } from '@md-shared/services/api/controllers/species';
-import { Kind } from '@md-shared/types/kind';
+
+import { getPokemons } from '@md-shared/services/api/controllers/pokemons';
 
 export type CustomHeaders = { [key: string]: string };
 export type APIVariables = {
@@ -26,11 +26,10 @@ export const createAPI = ({ baseURL = API_URL, customHeaders = {}, token }: APIV
   /* ------------- Controllers ------------- */
 
   const getRoot = () => api.get<{ result: string[] }>('/');
-  const getAllSpecies = () => api.get<{ results: Kind[] }>('/species');
 
   return {
     getRoot,
-    getAllSpecies,
+    ...getPokemons(api)
   };
 };
 

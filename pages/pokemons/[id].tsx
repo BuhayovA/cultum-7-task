@@ -1,8 +1,8 @@
 import React from 'react';
 import { MainLayout } from '@md-shared/layouts/main';
 
-const KindPage = () => {
+const PokemonPage = () => {
   return <MainLayout></MainLayout>;
 };
 
-export default KindPage;
+export default PokemonPage;
