@@ -6,11 +6,12 @@ export const config = {
     externalResolver: true
   }
 };
+
 const proxy = createProxyMiddleware({
-  target: process.env.GQL_REMOTE_API_URL,
+  target: process.env.API_URL,
   changeOrigin: true,
   pathRewrite: {
-    '^/api/graphql': '/'
+    '^/api/rest': '/'
   }
 });
 

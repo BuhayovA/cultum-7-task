@@ -1,4 +1,6 @@
 import axios from 'axios';
+// import { getSpecies } from '@md-shared/services/api/controllers/species';
+import { Kind } from '@md-shared/types/kind';
 
 export type CustomHeaders = { [key: string]: string };
 export type APIVariables = {
@@ -7,8 +9,7 @@ export type APIVariables = {
   customHeaders?: CustomHeaders;
 };
 
-const API_URL = process.env.NEXT_PUBLIC_ANALYTICS_ID;
-
+const API_URL = '/api/rest';
 export const createAPI = ({ baseURL = API_URL, customHeaders = {}, token }: APIVariables = {}) => {
   /* ------------- API instance ------------- */
 
@@ -25,12 +26,12 @@ export const createAPI = ({ baseURL = API_URL, customHeaders = {}, token }: APIV
   /* ------------- Controllers ------------- */
 
   const getRoot = () => api.get<{ result: string[] }>('/');
+  const getAllSpecies = () => api.get<{ results: Kind[] }>('/species');
 
   return {
-    getRoot
+    getRoot,
+    getAllSpecies,
   };
 };
 
 export type CreateApi = (config?: APIVariables) => ReturnType<typeof createAPI>;
-
-export * from './helpers';
