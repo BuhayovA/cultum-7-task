@@ -1,6 +1,9 @@
 import { AxiosInstance } from 'axios';
-import { Pokemon } from '@md-shared/types/kind';
+//types
+import { Pokemon } from '@md-shared/types/pokemon';
+import { PokemonsRespons } from '../../../../../../store/modules/pokemons';
 
 export const getPokemons = (api: AxiosInstance) => ({
-  getAllPokemons: () => api.get<{ results: Pokemon[] }>('/pokemon')
+  getAllPokemons: () => api.get<{ results: PokemonsRespons[] }>('/pokemon'),
+  getPokemon: (query: string) => api.get<Pokemon>(`/pokemon/${query}`)
 });

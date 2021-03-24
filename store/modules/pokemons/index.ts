@@ -1,7 +1,10 @@
-import { createAction } from '../../helpers';
+//redux
 import { Dispatch } from 'redux';
+//helpers
+import { createAction } from '../../helpers';
 import { createAPI } from '@md-shared/services/api';
-import { ClientError, clientError, clientSuccess, ClientSuccess } from '@md-shared/services/api/helpers';
+import { clientError, clientSuccess, getRequestError } from '@md-shared/services/api/helpers';
+
 /* ------------- Types ------------- */
 
 export const GET_POKEMONS = '@ui/pokemons/GET_POKEMONS';
@@ -10,12 +13,12 @@ export const SET_CLIENT_ERROR = '@ui/pokemons/SET_CLIENT_ERROR';
 
 /* ------------- Types and Action Creators ------------- */
 
-type PokemonsRespons = { name: string; url: string }[];
+export type PokemonsRespons = { name: string; url: string };
 
-export const setGetPokemonsAction = createAction<typeof GET_POKEMONS, ClientSuccess<PokemonsRespons>>(GET_POKEMONS);
+export const setGetPokemonsAction = createAction<typeof GET_POKEMONS, PokemonsRespons[]>(GET_POKEMONS);
 export type SetGetPokemonsAction = ReturnType<typeof setGetPokemonsAction>;
 
-export const setClientError = createAction<typeof SET_CLIENT_ERROR, ClientError<Error>>(SET_CLIENT_ERROR);
+export const setClientError = createAction<typeof SET_CLIENT_ERROR, string>(SET_CLIENT_ERROR);
 export type SetClientError = ReturnType<typeof setClientError>;
 
 export const setLoadingAction = createAction<typeof SET_LOADING, boolean>(SET_LOADING);
@@ -26,42 +29,31 @@ type Actions = SetGetPokemonsAction | SetLoadingAction | SetClientError;
 /* ------------- Initial State ------------- */
 
 export type InitialState = {
-  state: {
-    _tag: 'ClientError' | 'ClientSuccess';
-    data: { name: string; url: string }[] | undefined;
-    error: Error | undefined;
-  };
+  data: PokemonsRespons[] | undefined;
+  error: string | undefined;
   loading: boolean;
 };
 
 export const INITIAL_STATE: InitialState = {
-  state: {
-    _tag: 'ClientError',
-    data: undefined,
-    error: undefined
-  },
+  data: undefined,
+  error: undefined,
   loading: false
 };
 /* ------------- Thunk ------------- */
 
 export const getPokemonsThunkCreator = () => {
-  return (dispatch: Dispatch<Actions>) => {
+  return async (dispatch: Dispatch<Actions>) => {
     const api = createAPI();
+    dispatch(setLoadingAction(true));
     try {
-      dispatch(setLoadingAction(true));
-      api.getAllPokemons().then(
-        (resp) => {
-          dispatch(setLoadingAction(false));
-          dispatch(setGetPokemonsAction(clientSuccess<PokemonsRespons>(resp.data.results)));
-        },
-        (error) => {
-          dispatch(setClientError(clientError<Error>(error)));
-          dispatch(setLoadingAction(false));
-        }
-      );
-    } catch (err) {
+      const { data } = await api.getAllPokemons();
+      dispatch(setGetPokemonsAction(data.results));
       dispatch(setLoadingAction(false));
-      // dispatch(setClientError(err));
+      return clientSuccess(data);
+    } catch (err) {
+      dispatch(setClientError(err));
+      dispatch(setLoadingAction(false));
+      return clientError(getRequestError(err));
     }
   };
 };
@@ -73,12 +65,7 @@ export function reducer(state = INITIAL_STATE, action: Actions): InitialState {
     case GET_POKEMONS:
       return {
         ...state,
-        state: {
-          ...state.state,
-          _tag: action.payload._tag,
-          data: state.state.data ? [...state.state.data, ...action.payload.data] : action.payload.data,
-          error: undefined
-        }
+        data: state.data && state.data.length ? [...state.data, ...action.payload] : action.payload
       };
     case SET_LOADING:
       return {
@@ -88,12 +75,8 @@ export function reducer(state = INITIAL_STATE, action: Actions): InitialState {
     case SET_CLIENT_ERROR:
       return {
         ...state,
-        state: {
-          ...state.state,
-          _tag: action.payload._tag,
-          data: undefined,
-          error: action.payload.error
-        }
+        data: undefined,
+        error: action.payload
       };
     default:
       return state;

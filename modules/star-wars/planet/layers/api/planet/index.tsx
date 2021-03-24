@@ -26,7 +26,6 @@ const PlanetAPIContext = React.createContext<Context>({
 
 const PlanetAPIContextProvider: React.FC = ({ children }) => {
   const { query } = useRouter();
-
   const { data, loading, error, refetch } = useQuery<GetPlanetResponse, GetPlanetVariables>(GET_PLANET_QUERY, {
     variables: { id: query.id as string },
     skip: !query.id

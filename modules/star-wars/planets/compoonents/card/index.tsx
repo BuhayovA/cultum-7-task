@@ -12,7 +12,7 @@ interface Props {
 const Card: React.FC<Props> = ({ id, name }) => (
   <CardWrapper key={id}>
     <CardImgWrapper>
-      <CardImg src={'/static/images/planet.png'} alt={`${name}-${id}`} />
+      <CardImg src={'/static/images/pokemon.png'} alt={`${name}-${id}`} />
     </CardImgWrapper>
     <CardFooter>
       <PlanetLink pId={id}>

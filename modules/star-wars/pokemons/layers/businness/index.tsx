@@ -2,10 +2,10 @@ import * as React from 'react';
 // context
 import { PokemonsAPIContext } from '@md-star-wars/pokemons/layers/api';
 // types
-import { Pokemon } from '@md-shared/types/kind';
+import { PokemonsRespons } from '../../../../../store/modules/pokemons';
 
 interface Context {
-  pokemonsList: Pokemon[];
+  pokemonsList: PokemonsRespons[];
 }
 
 const PokemonsBLContext = React.createContext<Context>({

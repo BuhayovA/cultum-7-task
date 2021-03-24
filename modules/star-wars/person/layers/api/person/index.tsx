@@ -26,7 +26,6 @@ const PersonAPIContext = React.createContext<Context>({
 
 const PersonAPIContextProvider: React.FC = ({ children }) => {
   const { query } = useRouter();
-
   const { data, loading, error, refetch } = useQuery<GetPersonResponse, GetPersonVariables>(GET_PERSON_QUERY, {
     variables: { id: query.id as string },
     skip: !query.id
