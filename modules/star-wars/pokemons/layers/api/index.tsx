@@ -1,18 +1,12 @@
 import * as React from 'react';
 //mock
 import { useDispatch, useSelector } from 'react-redux';
-import {useMemo} from 'react';
-import {getPokemonsThunkCreator, PokemonsRespons, setClientError} from '../../../../../store/modules/pokemons';
+import { useMemo } from 'react';
+import { getPokemonsThunkCreator } from '../../../../../store/modules/pokemons';
 //types
 import { RootStore } from '../../../../../store';
 import { InitialState as PokemonsState } from '../../../../../store/modules/pokemons/index';
-import {
-    ClientError,
-    clientError,
-    getRequestErrorMessage,
-    isClientError,
-    RequestError
-} from "@md-shared/services/api/helpers";
+import { ClientError, clientError } from '@md-shared/services/api/helpers';
 
 interface Context {
   pokemons: { name: string; url: string }[] | undefined;
@@ -31,7 +25,7 @@ const PokemonsAPIContextProvider: React.FC = ({ children }) => {
   const dispatch = useDispatch();
   useMemo(async () => {
     return dispatch(getPokemonsThunkCreator());
-  }, [])
+  }, []);
   //take data from the redux-state.
   const { data, loading, error } = useSelector<RootStore, PokemonsState>(({ pokemons }) => pokemons);
   return (

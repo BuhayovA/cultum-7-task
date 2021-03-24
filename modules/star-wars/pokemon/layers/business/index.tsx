@@ -27,7 +27,7 @@ const PokemonBLContextProvider: React.FC = ({ children }) => {
       { label: 'Weight', value: pokemon.weight ?? 'N/A' },
       { label: 'Height', value: pokemon.height ?? 'N/A' },
       { label: 'Name', value: pokemon.name ?? 'N/A' },
-      { label: 'Default', value: `${pokemon.is_default}` ?? 'N/A' }
+      { label: 'Default pokemon?', value: `${pokemon.is_default}` ?? 'N/A' }
     ];
   }, [pokemon]);
   return (

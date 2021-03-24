@@ -49,7 +49,9 @@ export const INITIAL_STATE: InitialState = {
 /* ------------- Thunk ------------- */
 
 export const getPokemonsThunkCreator = () => {
-  return async (dispatch: Dispatch<Actions>): Promise<ClientSuccess<{results: PokemonsRespons[]}> | ClientError<RequestError>> => {
+  return async (
+    dispatch: Dispatch<Actions>
+  ): Promise<ClientSuccess<{ results: PokemonsRespons[] }> | ClientError<RequestError>> => {
     const api = createAPI();
     dispatch(setLoadingAction(true));
     try {

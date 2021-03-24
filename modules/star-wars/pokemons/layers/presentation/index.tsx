@@ -11,9 +11,9 @@ import { useContext } from 'react';
 import { ContentWrapper, Wrapper } from '@md-shared/views/common';
 
 const PokemonsPresentation = () => {
-    // add business logic here
+  // add business logic here
   const { pokemonsList } = useContext(PokemonsBLContext);
-    // add api logic here
+  // add api logic here
   const { isLoading, error } = useContext(PokemonsAPIContext);
   return (
     <ContentWrapper>

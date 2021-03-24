@@ -8,7 +8,7 @@ import {
   clientError,
   ClientSuccess,
   clientSuccess,
-  getRequestError, getRequestErrorMessage,
+  getRequestError,
   RequestError
 } from '@md-shared/services/api/helpers';
 //types
