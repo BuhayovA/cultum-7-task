@@ -4,7 +4,7 @@ import { PokemonAPIContext } from '@md-star-wars/pokemon/layers/api/pokemon';
 import { PokemonBLContext } from '@md-star-wars/pokemon/layers/business';
 // view components
 import { ContentLoader } from '@md-ui/loaders/content-loader';
-import { PokemonInfo } from '@md-star-wars/pokemon/components/planet-info';
+import { PokemonInfo } from '@md-star-wars/pokemon/components/pokemon-info';
 // views
 import {
   ContentWrapper,

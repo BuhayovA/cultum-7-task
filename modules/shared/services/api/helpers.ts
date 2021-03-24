@@ -69,7 +69,7 @@ export const getRequestError = (error: AxiosError): RequestError => {
 export const getRequestErrorMessage = (error: RequestError) => {
   switch (error._tag) {
     case 'ResponseError':
-      return error.data.message;
+      return typeof error.data === "string" ? error.data : error.data.message
     case 'NoResponseError':
       return JSON.stringify(error.request);
     case 'RequestError':

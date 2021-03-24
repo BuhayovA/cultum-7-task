@@ -2,7 +2,7 @@ import * as React from 'react';
 // views
 import { CardWrapper, CardImgWrapper, CardImg, CardFooter, CardFooterTitle, ViewButton } from './views';
 // view components
-import { PokemonLink } from '../kind-link';
+import { PokemonLink } from '../pokemon-link';
 
 interface Props {
   id: string;

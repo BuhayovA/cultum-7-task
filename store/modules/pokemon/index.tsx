@@ -3,7 +3,14 @@ import { Dispatch } from 'redux';
 //helpers
 import { createAction } from '../../helpers';
 import { createAPI } from '@md-shared/services/api';
-import { clientError, clientSuccess, getRequestError } from '@md-shared/services/api/helpers';
+import {
+  ClientError,
+  clientError,
+  ClientSuccess,
+  clientSuccess,
+  getRequestError, getRequestErrorMessage,
+  RequestError
+} from '@md-shared/services/api/helpers';
 //types
 import { Pokemon } from '@md-shared/types/pokemon';
 
@@ -44,7 +51,7 @@ export const INITIAL_STATE: InitialState = {
 /* ------------- Thunk ------------- */
 
 export const getPokemonThunkCreator = (query: string) => {
-  return async (dispatch: Dispatch<Actions>) => {
+  return async (dispatch: Dispatch<Actions>): Promise<ClientError<RequestError> | ClientSuccess<Pokemon>> => {
     const api = createAPI();
     dispatch(setLoadingAction(true));
     try {
@@ -55,9 +62,7 @@ export const getPokemonThunkCreator = (query: string) => {
     } catch (err) {
       dispatch(setPokemonClientError(err.message));
       dispatch(setLoadingAction(false));
-      console.log(clientError(getRequestError(err)));
-
-      return clientError(err);
+      return clientError(getRequestError(err));
     }
   };
 };
