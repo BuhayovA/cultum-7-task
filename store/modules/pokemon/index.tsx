@@ -61,7 +61,7 @@ export const getPokemonThunkCreator = (query: string) => {
       return clientSuccess(data);
     } catch (err) {
       dispatch(setPokemonClientError(err.message));
-      dispatch(setLoadingAction(false));
+      await dispatch(setLoadingAction(false));
       return clientError(getRequestError(err));
     }
   };

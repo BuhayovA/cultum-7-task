@@ -34,7 +34,7 @@ const PokemonAPIContextProvider: React.FC = ({ children }) => {
   // make api call here
   useMemo(async () => {
     return dispatch(getPokemonThunkCreator(query.id as string));
-  }, [typeof query.id === 'undefined']);
+  }, [query.id]);
 
   return (
     <PokemonAPIContext.Provider

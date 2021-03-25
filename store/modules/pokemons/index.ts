@@ -17,10 +17,10 @@ import {
 export const GET_POKEMONS = '@ui/pokemons/GET_POKEMONS';
 export const SET_LOADING = '@ui/pokemons/SET_LOADING';
 export const SET_CLIENT_ERROR = '@ui/pokemons/SET_CLIENT_ERROR';
+export type PokemonsRespons = { name: string; url: string };
 
 /* ------------- Types and Action Creators ------------- */
 
-export type PokemonsRespons = { name: string; url: string };
 
 export const setGetPokemonsAction = createAction<typeof GET_POKEMONS, PokemonsRespons[]>(GET_POKEMONS);
 export type SetGetPokemonsAction = ReturnType<typeof setGetPokemonsAction>;
