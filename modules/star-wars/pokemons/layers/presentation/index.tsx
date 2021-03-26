@@ -12,11 +12,12 @@ import { getPokemonsThunkCreator, InitialState as PokemonsState } from 'store/mo
 import { RootStore } from 'store';
 // helpers
 import { clientError } from '@md-shared/services/api/helpers';
+import { ThunkDispatch } from 'store/helpers';
 
 const PokemonsPresentation = () => {
-  // make api call here
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<ThunkDispatch>();
 
+  // make api call here
   useEffect(() => {
     dispatch(getPokemonsThunkCreator());
   }, [dispatch]);

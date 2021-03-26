@@ -1,7 +1,5 @@
-// redux
-import { Dispatch } from 'redux';
 // helpers
-import { createAction } from '../../helpers';
+import { createAction, ThunkAction } from '../../helpers';
 import { createAPI } from '@md-shared/services/api';
 import {
   ClientError,
@@ -50,26 +48,29 @@ export const INITIAL_STATE: InitialState = {
 };
 /* ------------- Thunk ------------- */
 
-export const getPokemonThunkCreator = (query: string) => {
-  return async (dispatch: Dispatch<Actions>): Promise<ClientError<RequestError> | ClientSuccess<Pokemon>> => {
-    const api = createAPI();
+export const getPokemonThunkCreator = (
+  query: string
+): ThunkAction<
+  typeof GET_POKEMON | typeof SET_POKEMON_DESCRIPTIONS_LOADING | typeof SET_POKEMON_CLIENT_ERROR,
+  Promise<ClientSuccess<Pokemon> | ClientError<RequestError>>
+> => async (dispatch) => {
+  const api = createAPI();
 
-    dispatch(setLoadingAction(true));
+  dispatch(setLoadingAction(true));
 
-    try {
-      const { data } = await api.getPokemon(query);
+  try {
+    const { data } = await api.getPokemon(query);
 
-      dispatch(getPokemonDescriptionsAction(data));
-      dispatch(setLoadingAction(false));
+    dispatch(getPokemonDescriptionsAction(data));
+    dispatch(setLoadingAction(false));
 
-      return clientSuccess(data);
-    } catch (err) {
-      dispatch(setPokemonClientError(err.message));
-      await dispatch(setLoadingAction(false));
+    return clientSuccess(data);
+  } catch (err) {
+    dispatch(setPokemonClientError(err.message));
+    dispatch(setLoadingAction(false));
 
-      return clientError(getRequestError(err));
-    }
-  };
+    return clientError(getRequestError(err));
+  }
 };
 
 /* ------------- Hookup Reducers To Types ------------- */

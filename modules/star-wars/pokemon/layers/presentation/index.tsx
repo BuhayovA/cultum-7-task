@@ -8,6 +8,7 @@ import { RootStore } from 'store';
 import { getPokemonThunkCreator, InitialState as PokemonState } from 'store/modules/pokemon';
 // helpers
 import { clientError } from '@md-shared/services/api/helpers';
+import { ThunkDispatch } from 'store/helpers';
 // view components
 import { ContentLoader } from '@md-ui/loaders/content-loader';
 import { PokemonInfo } from '@md-star-wars/pokemon/components/pokemon-info';
@@ -29,7 +30,8 @@ interface PokemonList {
 const PokemonPresentation = () => {
   const { query } = useRouter();
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<ThunkDispatch>();
+  // take data from the redux-state.
   const { data, loading, error } = useSelector<RootStore, PokemonState>(({ pokemon }) => pokemon);
 
   // make api call here
