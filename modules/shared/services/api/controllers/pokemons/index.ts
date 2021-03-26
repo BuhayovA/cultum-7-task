@@ -1,5 +1,5 @@
 import { AxiosInstance } from 'axios';
-//types
+// types
 import { Pokemon } from '@md-shared/types/pokemon';
 import { PokemonsRespons } from '../../../../../../store/modules/pokemons';
 

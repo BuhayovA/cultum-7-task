@@ -1,6 +1,5 @@
 import * as React from 'react';
 // context
-import { PokemonAPIContext } from '@md-star-wars/pokemon/layers/api/pokemon';
 import { PokemonBLContext } from '@md-star-wars/pokemon/layers/business';
 // view components
 import { ContentLoader } from '@md-ui/loaders/content-loader';
@@ -16,8 +15,8 @@ import {
 } from './views';
 
 const PokemonPresentation = () => {
-  const { isLoading, error, pokemon } = React.useContext(PokemonAPIContext);
-  const { pokemonInfo } = React.useContext(PokemonBLContext);
+  const { pokemonInfo, isLoading, error, pokemon } = React.useContext(PokemonBLContext);
+
   return (
     <ContentWrapper>
       <Wrapper>

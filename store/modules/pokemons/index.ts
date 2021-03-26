@@ -1,6 +1,6 @@
-//redux
+// redux
 import { Dispatch } from 'redux';
-//helpers
+// helpers
 import { createAction } from '../../helpers';
 import { createAPI } from '@md-shared/services/api';
 import {
@@ -20,7 +20,6 @@ export const SET_CLIENT_ERROR = '@ui/pokemons/SET_CLIENT_ERROR';
 export type PokemonsRespons = { name: string; url: string };
 
 /* ------------- Types and Action Creators ------------- */
-
 
 export const setGetPokemonsAction = createAction<typeof GET_POKEMONS, PokemonsRespons[]>(GET_POKEMONS);
 export type SetGetPokemonsAction = ReturnType<typeof setGetPokemonsAction>;
@@ -53,15 +52,20 @@ export const getPokemonsThunkCreator = () => {
     dispatch: Dispatch<Actions>
   ): Promise<ClientSuccess<{ results: PokemonsRespons[] }> | ClientError<RequestError>> => {
     const api = createAPI();
+
     dispatch(setLoadingAction(true));
+
     try {
       const { data } = await api.getAllPokemons();
+
       dispatch(setGetPokemonsAction(data.results));
       dispatch(setLoadingAction(false));
+
       return clientSuccess(data);
     } catch (err) {
       dispatch(setClientError(err.message));
       dispatch(setLoadingAction(false));
+
       return clientError(getRequestError(err));
     }
   };

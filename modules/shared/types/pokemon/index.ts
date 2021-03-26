@@ -73,7 +73,7 @@ export interface Other {
   'official-artwork': DreamWorld;
 }
 
-export interface DreamWorld {}
+export type DreamWorld = any;
 
 export interface Versions {
   'generation-i': GenerationI;

@@ -30,8 +30,7 @@ const PlanetBLContextProvider: React.FC = ({ children }) => {
       { label: 'Orbital Period', value: planet.orbitalPeriod ?? 'N/A' },
       { label: 'Population', value: planet.population ?? 'N/A' }
     ];
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [typeof planet === 'undefined']);
+  }, [typeof planet === 'undefined', planet]);
 
   return (
     <PlanetBLContext.Provider

@@ -1,27 +1,34 @@
 import * as React from 'react';
 // view components
 import { ContentLoader } from '@md-ui/loaders/content-loader';
-// context
-import { PokemonsBLContext } from '@md-star-wars/pokemons/layers/businness';
-import { PokemonsAPIContext } from '@md-star-wars/pokemons/layers/api';
-// views components
 import { Card } from '@md-star-wars/pokemons/components/card';
-import { useContext } from 'react';
+import { useEffect } from 'react';
 // views
 import { ContentWrapper, Wrapper } from '@md-shared/views/common';
+// libs
+import { useDispatch, useSelector } from 'react-redux';
+// mock
+import { getPokemonsThunkCreator, InitialState as PokemonsState } from 'store/modules/pokemons';
+import { RootStore } from 'store';
+// helpers
+import { clientError } from '@md-shared/services/api/helpers';
 
 const PokemonsPresentation = () => {
-  // add business logic here
-  const { pokemonsList } = useContext(PokemonsBLContext);
-  // add api logic here
-  const { isLoading, error } = useContext(PokemonsAPIContext);
+  // make api call here
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getPokemonsThunkCreator());
+  }, [dispatch]);
+
+  // take data from the redux-state.
+  const { data, loading, error } = useSelector<RootStore, PokemonsState>(({ pokemons }) => pokemons);
+
   return (
     <ContentWrapper>
-      <ContentLoader isLoading={isLoading} error={error}>
+      <ContentLoader isLoading={loading} error={error ? clientError(error) : undefined}>
         <Wrapper>
-          {pokemonsList.map((pokemon, index) => (
-            <Card name={pokemon.name} id={pokemon.name} key={index} />
-          ))}
+          {data && data.map((pokemon, index) => <Card name={pokemon.name} id={pokemon.name} key={index} />)}
         </Wrapper>
       </ContentLoader>
     </ContentWrapper>

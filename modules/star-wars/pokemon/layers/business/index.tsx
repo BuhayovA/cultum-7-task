@@ -1,6 +1,15 @@
 import * as React from 'react';
-// context
-import { PokemonAPIContext } from '@md-star-wars/pokemon/layers/api/pokemon';
+// libs
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+// mock
+import { RootStore } from '../../../../../store';
+import { getPokemonThunkCreator, InitialState as PokemonState } from '../../../../../store/modules/pokemon';
+// helpers
+import { clientError, ClientError } from '@md-shared/services/api/helpers';
+// types
+import { Pokemon } from '@md-shared/types/pokemon';
 
 interface PokemonInfo {
   label: string;
@@ -9,31 +18,47 @@ interface PokemonInfo {
 
 interface Context {
   pokemonInfo: PokemonInfo[];
+  isLoading: boolean;
+  error: ClientError<string> | undefined;
+  pokemon: Pokemon | undefined;
 }
 
 const PokemonBLContext = React.createContext<Context>({
-  pokemonInfo: []
+  pokemonInfo: [],
+  isLoading: false,
+  error: undefined,
+  pokemon: undefined
 });
 
 const PokemonBLContextProvider: React.FC = ({ children }) => {
-  // add business logic here
-  const { pokemon } = React.useContext(PokemonAPIContext);
+  const { query } = useRouter();
+
+  const dispatch = useDispatch();
+  const { data, loading, error } = useSelector<RootStore, PokemonState>(({ pokemon }) => pokemon);
+
+  // make api call here
+  useEffect(() => {
+    dispatch(getPokemonThunkCreator(query.id as string));
+  }, [query.id, dispatch]);
 
   const pokemonInfo = React.useMemo<PokemonInfo[]>(() => {
-    if (!pokemon) {
+    if (!data) {
       return [];
     }
     return [
-      { label: 'Weight', value: pokemon.weight ?? 'N/A' },
-      { label: 'Height', value: pokemon.height ?? 'N/A' },
-      { label: 'Name', value: pokemon.name ?? 'N/A' },
-      { label: 'Default pokemon?', value: `${pokemon.is_default}` ?? 'N/A' }
+      { label: 'Weight', value: data.weight ?? 'N/A' },
+      { label: 'Height', value: data.height ?? 'N/A' },
+      { label: 'Name', value: data.name ?? 'N/A' },
+      { label: 'Default pokemon?', value: `${data.is_default}` ?? 'N/A' }
     ];
-  }, [pokemon]);
+  }, [data]);
   return (
     <PokemonBLContext.Provider
       value={{
-        pokemonInfo
+        isLoading: loading,
+        pokemonInfo,
+        error: error ? clientError(error) : undefined,
+        pokemon: data
       }}
     >
       {children}
