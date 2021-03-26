@@ -12,6 +12,8 @@ const PokemonsBLContext = React.createContext<Context>({
   pokemonsList: []
 });
 
+// TODO: fpr what purpose BL context????
+
 const PokemonsBLContextProvider: React.FC = ({ children }) => {
   // add business logic here
   const { pokemons } = React.useContext(PokemonsAPIContext);

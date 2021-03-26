@@ -20,9 +20,12 @@ const PokemonsAPIContext = React.createContext<Context>({
   error: undefined
 });
 
+// TODO: api context is not necessary here! Redux API is already like a context API!
+
 const PokemonsAPIContextProvider: React.FC = ({ children }) => {
   // make api call here
   const dispatch = useDispatch();
+  // TODO: ???? 1) why useMemo ????? 2) why function is not simple???
   useMemo(async () => {
     return dispatch(getPokemonsThunkCreator());
   }, []);

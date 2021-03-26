@@ -28,10 +28,13 @@ const PokemonAPIContextProvider: React.FC = ({ children }) => {
   //get url query
   const { query } = useRouter();
   const dispatch = useDispatch();
+  // TODO: really???
   if (!query) return null;
 
   const { data, loading, error } = useSelector<RootStore, PokemonState>(({ pokemon }) => pokemon);
   // make api call here
+
+  // TODO: =(
   useMemo(async () => {
     return dispatch(getPokemonThunkCreator(query.id as string));
   }, [typeof query.id === 'undefined']);
