@@ -1,10 +1,4 @@
 import * as React from 'react';
-// view components
-import { ContentLoader } from '@md-ui/loaders/content-loader';
-import { Card } from '@md-star-wars/pokemons/components/card';
-import { useEffect } from 'react';
-// views
-import { ContentWrapper, Wrapper } from '@md-shared/views/common';
 // libs
 import { useDispatch, useSelector } from 'react-redux';
 // mock
@@ -13,6 +7,12 @@ import { RootStore } from 'store';
 // helpers
 import { clientError } from '@md-shared/services/api/helpers';
 import { ThunkDispatch } from 'store/helpers';
+// view components
+import { ContentLoader } from '@md-ui/loaders/content-loader';
+import { Card } from '@md-star-wars/pokemons/components/card';
+import { useEffect } from 'react';
+// views
+import { ContentWrapper, Wrapper } from '@md-shared/views/common';
 
 const PokemonsContainer = () => {
   // hooks
