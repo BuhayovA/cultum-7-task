@@ -26,8 +26,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
     const { data, headers } = await api.getPokemon(context.query.id);
 
-    dispatch(setTimeRequestPokemon(Date.parse(headers.date)));
     dispatch(getPokemonDescriptionsAction(data));
+    dispatch(setTimeRequestPokemon(Date.parse(headers.date)));
   } catch (err) {
     // eslint-disable-next-line no-console
     console.log(err);
