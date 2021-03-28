@@ -17,11 +17,15 @@ import { Pokemon } from '@md-shared/types/pokemon';
 export const GET_POKEMON = '@ui/pokemons/GET_POKEMON';
 export const SET_POKEMON_DESCRIPTIONS_LOADING = '@ui/pokemons/SET_POKEMON_DESCRIPTIONS_LOADING';
 export const SET_POKEMON_CLIENT_ERROR = '@ui/pokemons/SET_POKEMON_CLIENT_ERROR';
+export const SET_TIME_REQUEST_POKEMON = '@ui/pokemons/SET_TIME_REQUEST_POKEMON';
 
 /* ------------- Types and Action Creators ------------- */
 
 export const getPokemonDescriptionsAction = createAction<typeof GET_POKEMON, Pokemon>(GET_POKEMON);
 export type GetPokemonDescriptionsAction = ReturnType<typeof getPokemonDescriptionsAction>;
+
+export const setTimeRequestPokemon = createAction<typeof SET_TIME_REQUEST_POKEMON, number>(SET_TIME_REQUEST_POKEMON);
+export type SetTimeRequestPokemon = ReturnType<typeof setTimeRequestPokemon>;
 
 export const setPokemonClientError = createAction<typeof SET_POKEMON_CLIENT_ERROR, string>(SET_POKEMON_CLIENT_ERROR);
 export type SetPokemonClientError = ReturnType<typeof setPokemonClientError>;
@@ -31,7 +35,7 @@ export const setLoadingAction = createAction<typeof SET_POKEMON_DESCRIPTIONS_LOA
 );
 export type SetLoadingAction = ReturnType<typeof setLoadingAction>;
 
-type Actions = GetPokemonDescriptionsAction | SetLoadingAction | SetPokemonClientError;
+type Actions = GetPokemonDescriptionsAction | SetLoadingAction | SetPokemonClientError | SetTimeRequestPokemon;
 
 /* ------------- Initial State ------------- */
 
@@ -39,13 +43,16 @@ export type InitialState = {
   data: Pokemon | undefined;
   error: string | undefined;
   loading: boolean;
+  responseTime: number | undefined;
 };
 
 export const INITIAL_STATE: InitialState = {
   data: undefined,
   error: undefined,
-  loading: false
+  loading: false,
+  responseTime: undefined
 };
+
 /* ------------- Thunk ------------- */
 
 export const getPokemonThunkCreator = (
@@ -60,7 +67,6 @@ export const getPokemonThunkCreator = (
 
   try {
     const { data } = await api.getPokemon(query);
-
     dispatch(getPokemonDescriptionsAction(data));
     dispatch(setLoadingAction(false));
 
@@ -93,6 +99,11 @@ export function reducer(state = INITIAL_STATE, action: Actions): InitialState {
         ...state,
         data: undefined,
         error: action.payload
+      };
+    case SET_TIME_REQUEST_POKEMON:
+      return {
+        ...state,
+        responseTime: action.payload
       };
     default:
       return state;

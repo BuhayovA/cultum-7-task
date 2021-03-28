@@ -20,9 +20,7 @@ const PlanetBLContextProvider: React.FC = ({ children }) => {
   const { planet } = React.useContext(PlanetAPIContext);
 
   const planetInfo = React.useMemo<PlanetInfo[]>(() => {
-    if (!planet) {
-      return [];
-    }
+    if (!planet) return [];
 
     return [
       { label: 'Diameter', value: planet.diameter ?? 'N/A' },

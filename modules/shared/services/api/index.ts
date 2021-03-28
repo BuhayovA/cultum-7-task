@@ -9,7 +9,7 @@ export type APIVariables = {
   customHeaders?: CustomHeaders;
 };
 
-const API_URL = '/api/rest';
+const API_URL = process.browser ? '/api/rest' : process.env.API_URL;
 export const createAPI = ({ baseURL = API_URL, customHeaders = {}, token }: APIVariables = {}) => {
   /* ------------- API instance ------------- */
 
@@ -22,7 +22,6 @@ export const createAPI = ({ baseURL = API_URL, customHeaders = {}, token }: APIV
     },
     timeout: 10000
   });
-
   /* ------------- Controllers ------------- */
 
   const getRoot = () => api.get<{ result: string[] }>('/');

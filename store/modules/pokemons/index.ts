@@ -12,15 +12,25 @@ import {
 
 /* ------------- Types ------------- */
 
+interface Pokemons {
+  name: string;
+  url: string;
+}
+
+export type PokemonsRespons = Pick<Pokemons, 'name' | 'url'>;
+
 export const GET_POKEMONS = '@ui/pokemons/GET_POKEMONS';
 export const SET_LOADING = '@ui/pokemons/SET_LOADING';
 export const SET_CLIENT_ERROR = '@ui/pokemons/SET_CLIENT_ERROR';
-export type PokemonsRespons = { name: string; url: string };
+export const SET_TIME_POKEMONS_REQUEST = '@ui/pokemons/SET_TIME_POKEMONS_REQUEST';
 
 /* ------------- Types and Action Creators ------------- */
 
 export const setGetPokemonsAction = createAction<typeof GET_POKEMONS, PokemonsRespons[]>(GET_POKEMONS);
 export type SetGetPokemonsAction = ReturnType<typeof setGetPokemonsAction>;
+
+export const setTimePokemonsRequest = createAction<typeof SET_TIME_POKEMONS_REQUEST, number>(SET_TIME_POKEMONS_REQUEST);
+export type SetTimePokemonsRequest = ReturnType<typeof setTimePokemonsRequest>;
 
 export const setClientError = createAction<typeof SET_CLIENT_ERROR, string>(SET_CLIENT_ERROR);
 export type SetClientError = ReturnType<typeof setClientError>;
@@ -28,7 +38,7 @@ export type SetClientError = ReturnType<typeof setClientError>;
 export const setLoadingAction = createAction<typeof SET_LOADING, boolean>(SET_LOADING);
 export type SetLoadingAction = ReturnType<typeof setLoadingAction>;
 
-type Actions = SetGetPokemonsAction | SetLoadingAction | SetClientError;
+type Actions = SetGetPokemonsAction | SetLoadingAction | SetClientError | SetTimePokemonsRequest;
 
 /* ------------- Initial State ------------- */
 
@@ -36,13 +46,16 @@ export type InitialState = {
   data: PokemonsRespons[] | undefined;
   error: string | undefined;
   loading: boolean;
+  responseTime: number | undefined;
 };
 
 export const INITIAL_STATE: InitialState = {
   data: undefined,
   error: undefined,
-  loading: false
+  loading: false,
+  responseTime: undefined
 };
+
 /* ------------- Thunk ------------- */
 
 export const getPokemonsThunkCreator = (): ThunkAction<
@@ -54,12 +67,11 @@ export const getPokemonsThunkCreator = (): ThunkAction<
   dispatch(setLoadingAction(true));
 
   try {
-    const { data } = await api.getAllPokemons();
-
-    dispatch(setGetPokemonsAction(data.results));
+    const data = await api.getAllPokemons();
+    dispatch(setGetPokemonsAction(data.data.results));
     dispatch(setLoadingAction(false));
 
-    return clientSuccess(data.results);
+    return clientSuccess(data.data.results);
   } catch (err) {
     dispatch(setClientError(err.message));
     dispatch(setLoadingAction(false));
@@ -87,6 +99,11 @@ export function reducer(state = INITIAL_STATE, action: Actions): InitialState {
         ...state,
         data: undefined,
         error: action.payload
+      };
+    case SET_TIME_POKEMONS_REQUEST:
+      return {
+        ...state,
+        responseTime: action.payload
       };
     default:
       return state;
