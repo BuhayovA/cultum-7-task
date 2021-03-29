@@ -12,7 +12,7 @@ const DescriptionSection: React.FC<Props> = ({ content, title, subTitle }) => {
   return (
     <Wrapper>
       <Title>{title}</Title>
-      <span style={{ color: 'white' }}>
+      <span>
         {subTitle}: {Array.isArray(content) ? content.map((i: number | string) => i) : content}
       </span>
     </Wrapper>

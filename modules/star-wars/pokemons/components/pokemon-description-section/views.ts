@@ -7,6 +7,7 @@ export const Wrapper = styled.div`
   padding: 10px 10px;
   font-size: 14px;
   font-weight: 300;
+  color: white;
 `;
 
 export const Title = styled.div`
