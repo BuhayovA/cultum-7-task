@@ -1,10 +1,11 @@
 import * as React from 'react';
-// views
-import { CardWrapper, CardImgWrapper, CardImg, CardFooter, CardFooterTitle, ViewButton } from './views';
+// types
+import { Stat } from '@md-shared/types/pokemon';
 // view components
 import { PokemonLink } from '../pokemon-link';
-import { Stat } from '@md-shared/types/pokemon';
 import DescriptionSection from '@md-star-wars/pokemons/components/pokemon-description-section';
+// views
+import { CardWrapper, CardImgWrapper, CardImg, CardFooter, CardFooterTitle, ViewButton } from './views';
 
 interface Props {
   id: string;

@@ -9,6 +9,7 @@ import {
   getRequestError,
   RequestError
 } from '@md-shared/services/api/helpers';
+// types
 import { Pokemon } from '@md-shared/types/pokemon';
 
 /* ------------- Types ------------- */
