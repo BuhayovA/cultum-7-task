@@ -7,7 +7,7 @@ import { GET_PLANETS_QUERY } from '@md-queries/planets';
 // types
 import { GetPlanetsResponse, GetPlanetsVariables } from '@md-queries/planets/types';
 // libs
-import { initializeApollo } from '../../lib/apolloClient';
+import { initializeApollo } from 'lib/apolloClient';
 
 const PlanetsPage = () => (
   <MainLayout>
