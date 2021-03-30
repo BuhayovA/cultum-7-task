@@ -1,5 +1,6 @@
 import * as React from 'react';
 // libs
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 // mock
 import { getPokemonsThunkCreator, InitialState as PokemonsState } from 'store/modules/pokemons';
@@ -10,14 +11,13 @@ import { ThunkDispatch } from 'store/helpers';
 // view components
 import { ContentLoader } from '@md-ui/loaders/content-loader';
 import { Card } from '@md-star-wars/pokemons/components/card';
-import { useEffect } from 'react';
 // views
 import { ContentWrapper, Wrapper } from '@md-shared/views/common';
 
 const PokemonsContainer = () => {
+  // hooks
   const dispatch = useDispatch<ThunkDispatch>();
 
-  // make api call here
   useEffect(() => {
     dispatch(getPokemonsThunkCreator());
   }, [dispatch]);
@@ -27,18 +27,9 @@ const PokemonsContainer = () => {
 
   return (
     <ContentWrapper>
-      <ContentLoader isLoading={loading} error={error ? clientError(error) : undefined}>
+      <ContentLoader position='absolute' isLoading={loading} error={error ? clientError(error) : undefined}>
         <Wrapper>
-          {data &&
-            data.map((pokemon, index) => (
-              <Card
-                name={pokemon.name}
-                id={pokemon.name}
-                key={index}
-                baseStat={pokemon.description && pokemon.description.stats}
-                baseExperience={pokemon.description && pokemon.description.base_experience}
-              />
-            ))}
+          {data && data.map((pokemon, index) => <Card name={pokemon.name} id={pokemon.name} key={index} />)}
         </Wrapper>
       </ContentLoader>
     </ContentWrapper>

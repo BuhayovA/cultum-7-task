@@ -1,26 +1,22 @@
 import * as React from 'react';
-// libs
-import styled from 'styled-components';
 // types
 import { ClientError } from '@md-utils/errors/custom';
 // view components
 import { Loader } from '../loader';
 import { ErrorWrapper } from '../../errors/content';
+// views
+import { Wrapper } from './views';
 
 interface Props {
   isLoading: boolean;
   error?: ClientError<string>;
+  position?: string;
 }
 
-const Wrapper = styled.div`
-  ${({ theme }) => theme.templates.absolute};
-  ${({ theme }) => theme.templates.centerContent};
-`;
-
-const ContentLoader: React.FC<Props> = ({ children, isLoading, error }) => {
+const ContentLoader: React.FC<Props> = ({ position, children, isLoading, error }) => {
   if (isLoading) {
     return (
-      <Wrapper>
+      <Wrapper position={position}>
         <Loader />
       </Wrapper>
     );

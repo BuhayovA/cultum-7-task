@@ -13,7 +13,7 @@ const DescriptionSection: React.FC<Props> = ({ content, title, subTitle }) => {
     <Wrapper>
       <Title>{title}</Title>
       <span>
-        {subTitle}: {Array.isArray(content) ? content.map((i: number | string) => i) : content}
+        {`${subTitle}:`} {Array.isArray(content) ? content.map((i: number | string) => i) : content}
       </span>
     </Wrapper>
   );

@@ -70,15 +70,8 @@ export const getPokemonsThunkCreator = (): ThunkAction<
 
   try {
     const { data } = await api.getAllPokemons();
-    const pokemonsDescriptionsList: Pokemon[] = [];
-
-    for (const pokemon of data.results) {
-      const { data } = await api.getPokemon(pokemon.name);
-      pokemonsDescriptionsList.push(data);
-    }
 
     dispatch(setGetPokemonsAction(data.results));
-    dispatch(setPokemonsDescriptionsAction(pokemonsDescriptionsList));
     dispatch(setLoadingAction(false));
 
     return clientSuccess(data.results);
