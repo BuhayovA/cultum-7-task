@@ -44,9 +44,45 @@ export type SetDescriptionsClientErrorAction = ReturnType<typeof setDescriptions
 
 type Actions = SetPokemonsDescriptionsLoadingAction | SetDescriptionsClientErrorAction | SetDescriptionsAction;
 
-/* ------------- Utils ------------- */
+/* ------------- Initial State ------------- */
 
-const changeState = (state: InitialState, action: Actions) => {
+export type InitialState = {
+  descriptions: Description[];
+};
+
+export const INITIAL_STATE: InitialState = {
+  descriptions: []
+};
+
+/* ------------- Thunk ------------- */
+
+export const getPokemonsDescriptionThunkCreator = (
+  query: string
+): ThunkAction<
+  typeof SET_POKEMONS_DESCRIPTIONS_LOADING | typeof SET_DESCRIPTIONS_CLIENT_ERROR | typeof SET_DESCRIPTIONS,
+  Promise<ClientSuccess<Pokemon> | ClientError<RequestError>>
+> => async (dispatch) => {
+  const api = createAPI();
+
+  dispatch(setPokemonsDescriptionsLoadingAction({ loading: true, name: query }));
+
+  try {
+    const { data } = await api.getPokemon(query as string);
+    dispatch(setDescriptionsAction(data));
+    dispatch(setPokemonsDescriptionsLoadingAction({ loading: false, name: query }));
+
+    return clientSuccess(data);
+  } catch (err) {
+    dispatch(setDescriptionsClientErrorAction({ error: err.message, name: query }));
+    dispatch(setPokemonsDescriptionsLoadingAction({ loading: false, name: query }));
+
+    return clientError(getRequestError(err));
+  }
+};
+
+/* ------------- Hookup Reducers To Types ------------- */
+
+export function reducer(state = INITIAL_STATE, action: Actions): InitialState {
   switch (action.type) {
     case SET_POKEMONS_DESCRIPTIONS_LOADING:
       return {
@@ -94,55 +130,6 @@ const changeState = (state: InitialState, action: Actions) => {
               : [...state.descriptions, { ...action.payload }]
             : [{ ...action.payload }]
       };
-  }
-};
-
-/* ------------- Initial State ------------- */
-
-export type InitialState = {
-  descriptions: Description[];
-};
-
-export const INITIAL_STATE: InitialState = {
-  descriptions: []
-};
-
-/* ------------- Thunk ------------- */
-
-export const getPokemonsDescriptionThunkCreator = (
-  query: string
-): ThunkAction<
-  typeof SET_POKEMONS_DESCRIPTIONS_LOADING | typeof SET_DESCRIPTIONS_CLIENT_ERROR | typeof SET_DESCRIPTIONS,
-  Promise<ClientSuccess<Pokemon> | ClientError<RequestError>>
-> => async (dispatch) => {
-  const api = createAPI();
-
-  dispatch(setPokemonsDescriptionsLoadingAction({ loading: true, name: query }));
-
-  try {
-    const { data } = await api.getPokemon(query as string);
-    dispatch(setDescriptionsAction(data));
-    dispatch(setPokemonsDescriptionsLoadingAction({ loading: false, name: query }));
-
-    return clientSuccess(data);
-  } catch (err) {
-    dispatch(setDescriptionsClientErrorAction({ error: err.message, name: query }));
-    dispatch(setPokemonsDescriptionsLoadingAction({ loading: false, name: query }));
-
-    return clientError(getRequestError(err));
-  }
-};
-
-/* ------------- Hookup Reducers To Types ------------- */
-
-export function reducer(state = INITIAL_STATE, action: Actions): InitialState {
-  switch (action.type) {
-    case SET_POKEMONS_DESCRIPTIONS_LOADING:
-      return changeState(state, action);
-    case SET_DESCRIPTIONS:
-      return changeState(state, action);
-    case SET_DESCRIPTIONS_CLIENT_ERROR:
-      return changeState(state, action);
     default:
       return state;
   }
