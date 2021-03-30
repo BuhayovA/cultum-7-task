@@ -15,7 +15,7 @@ import { Pokemon } from '@md-shared/types/pokemon';
 /* ------------- Types ------------- */
 
 interface Description {
-  name?: string;
+  name: string;
   data?: Pokemon;
   loading?: boolean;
   error?: string;
@@ -27,7 +27,9 @@ export const SET_DESCRIPTIONS = '@ui/pokemons/SET_DESCRIPTIONS';
 
 /* ------------- Types and Action Creators ------------- */
 
-export const setDescriptionsAction = createAction<typeof SET_DESCRIPTIONS, Pokemon>(SET_DESCRIPTIONS);
+export const setDescriptionsAction = createAction<typeof SET_DESCRIPTIONS, { data: Pokemon; name: string }>(
+  SET_DESCRIPTIONS
+);
 export type SetDescriptionsAction = ReturnType<typeof setDescriptionsAction>;
 
 export const setPokemonsDescriptionsLoadingAction = createAction<
@@ -68,7 +70,7 @@ export const getPokemonsDescriptionThunkCreator = (
 
   try {
     const { data } = await api.getPokemon(query as string);
-    dispatch(setDescriptionsAction(data));
+    dispatch(setDescriptionsAction({ data: data, name: query }));
     dispatch(setPokemonsDescriptionsLoadingAction({ loading: false, name: query }));
 
     return clientSuccess(data);
@@ -109,10 +111,11 @@ export function reducer(state = INITIAL_STATE, action: Actions): InitialState {
                 ...state.descriptions.filter((description) => description.name !== action.payload.name),
                 {
                   ...state.descriptions.find((description) => description.name === action.payload.name),
-                  data: action.payload
+                  data: action.payload.data,
+                  name: action.payload.name
                 }
               ]
-            : [{ data: action.payload }]
+            : [{ ...action.payload }]
       };
     case SET_DESCRIPTIONS_CLIENT_ERROR:
       return {
