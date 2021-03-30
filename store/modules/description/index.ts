@@ -58,8 +58,7 @@ const changeState = (state: InitialState, action: Actions) => {
                   ...state.descriptions.filter((description) => description.name !== action.payload.name),
                   {
                     ...state.descriptions.find((description) => description.name === action.payload.name),
-                    name: action.payload.name,
-                    loading: action.payload.loading
+                    ...action.payload
                   }
                 ]
               : [...state.descriptions, { ...action.payload }]
@@ -74,10 +73,10 @@ const changeState = (state: InitialState, action: Actions) => {
                 ...state.descriptions.filter((description) => description.name !== action.payload.name),
                 {
                   ...state.descriptions.find((description) => description.name === action.payload.name),
-                  data: action.payload
+                  ...action.payload
                 }
               ]
-            : [{ data: action.payload }]
+            : [{ ...action.payload }]
       };
     case SET_DESCRIPTIONS_CLIENT_ERROR:
       return {
@@ -89,12 +88,11 @@ const changeState = (state: InitialState, action: Actions) => {
                   ...state.descriptions.filter((description) => description.name !== action.payload.name),
                   {
                     ...state.descriptions.find((description) => description.name === action.payload.name),
-                    error: action.payload.error,
-                    name: action.payload.name
+                    ...action.payload
                   }
                 ]
-              : [...state.descriptions, { error: action.payload.error, name: action.payload.name }]
-            : [{ error: action.payload.error, name: action.payload.name }]
+              : [...state.descriptions, { ...action.payload }]
+            : [{ ...action.payload }]
       };
   }
 };
