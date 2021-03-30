@@ -73,10 +73,10 @@ const changeState = (state: InitialState, action: Actions) => {
                 ...state.descriptions.filter((description) => description.name !== action.payload.name),
                 {
                   ...state.descriptions.find((description) => description.name === action.payload.name),
-                  ...action.payload
+                  data: action.payload
                 }
               ]
-            : [{ ...action.payload }]
+            : [{ data: action.payload }]
       };
     case SET_DESCRIPTIONS_CLIENT_ERROR:
       return {
