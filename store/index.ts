@@ -2,23 +2,20 @@
 import { combineReducers } from 'redux';
 // shapes
 import { UIReducers } from './modules/ui';
+import { PokemonsReducers } from './modules/pokemons';
 import { InitialState as ProductsState } from './modules/products';
-import { InitialState as PokemonsState } from './modules/pokemons';
 import { InitialState as PokemonState } from './modules/pokemon';
-import { InitialState as DescriptionState } from './modules/description';
 
 export type RootStore = {
   ui: UIReducers;
+  pokemons: PokemonsReducers;
   products: ProductsState;
-  pokemons: PokemonsState;
   pokemon: PokemonState;
-  description: DescriptionState;
 };
 
 export const rootStore = combineReducers<RootStore>({
   ui: require('./modules/ui').uiReducers,
+  pokemons: require('./modules/pokemons').pokemonsReducers,
   products: require('./modules/products').reducer,
-  pokemons: require('./modules/pokemons').reducer,
-  pokemon: require('./modules/pokemon').reducer,
-  description: require('./modules/description').reducer
+  pokemon: require('./modules/pokemon').reducer
 });

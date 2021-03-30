@@ -1,5 +1,5 @@
 // helpers
-import { createAction, ThunkAction } from '../../helpers';
+import { createAction, ThunkAction } from '../../../helpers';
 import { createAPI } from '@md-shared/services/api';
 import {
   ClientError,

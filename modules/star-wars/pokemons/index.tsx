@@ -3,7 +3,7 @@ import * as React from 'react';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 // mock
-import { getPokemonsThunkCreator, InitialState as PokemonsState } from 'store/modules/pokemons';
+import { getPokemonsThunkCreator, InitialState as PokemonsState } from 'store/modules/pokemons/pokemons';
 import { RootStore } from 'store';
 // helpers
 import { clientError } from '@md-shared/services/api/helpers';
@@ -23,7 +23,7 @@ const PokemonsContainer = () => {
   }, [dispatch]);
 
   // take data from the redux-state.
-  const { data, loading, error } = useSelector<RootStore, PokemonsState>(({ pokemons }) => pokemons);
+  const { data, loading, error } = useSelector<RootStore, PokemonsState>(({ pokemons }) => pokemons.pokemons);
 
   return (
     <ContentWrapper>

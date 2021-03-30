@@ -3,7 +3,10 @@ import * as React from 'react';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 // mock
-import { getPokemonsDescriptionThunkCreator, InitialState as DescriptionsState } from 'store/modules/description';
+import {
+  getPokemonsDescriptionThunkCreator,
+  InitialState as DescriptionsState
+} from 'store/modules/pokemons/description';
 import { RootStore } from 'store';
 // helpers
 import { ThunkDispatch } from 'store/helpers';
@@ -28,7 +31,7 @@ const Card: React.FC<Props> = ({ id, name }) => {
     dispatch(getPokemonsDescriptionThunkCreator(name));
   }, [dispatch]);
 
-  const { descriptions } = useSelector<RootStore, DescriptionsState>(({ description }) => description);
+  const { descriptions } = useSelector<RootStore, DescriptionsState>(({ pokemons }) => pokemons.descriptions);
   // search for the desired element by name
   const pokemon = descriptions && descriptions.find((i) => i.name === name);
 
