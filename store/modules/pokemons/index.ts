@@ -9,23 +9,19 @@ import {
   getRequestError,
   RequestError
 } from '@md-shared/services/api/helpers';
-// types
-import { Pokemon } from '@md-shared/types/pokemon';
 
 /* ------------- Types ------------- */
 
 interface Pokemons {
   name: string;
   url: string;
-  description: Pokemon | undefined;
 }
 
-export type PokemonsRespons = Pick<Pokemons, 'name' | 'url' | 'description'>;
+export type PokemonsRespons = Pick<Pokemons, 'name' | 'url'>;
 
 export const GET_POKEMONS = '@ui/pokemons/GET_POKEMONS';
 export const SET_LOADING = '@ui/pokemons/SET_LOADING';
 export const SET_CLIENT_ERROR = '@ui/pokemons/SET_CLIENT_ERROR';
-export const SET_POKEMONS_DESCRIPTIONS = '@ui/pokemons/SET_POKEMONS_DESCRIPTIONS';
 
 /* ------------- Types and Action Creators ------------- */
 
@@ -38,12 +34,7 @@ export type SetClientError = ReturnType<typeof setClientError>;
 export const setLoadingAction = createAction<typeof SET_LOADING, boolean>(SET_LOADING);
 export type SetLoadingAction = ReturnType<typeof setLoadingAction>;
 
-export const setPokemonsDescriptionsAction = createAction<typeof SET_POKEMONS_DESCRIPTIONS, Pokemon[]>(
-  SET_POKEMONS_DESCRIPTIONS
-);
-export type SetPokemonsDescriptionsAction = ReturnType<typeof setPokemonsDescriptionsAction>;
-
-type Actions = SetGetPokemonsAction | SetLoadingAction | SetClientError | SetPokemonsDescriptionsAction;
+type Actions = SetGetPokemonsAction | SetLoadingAction | SetClientError;
 
 /* ------------- Initial State ------------- */
 
@@ -61,7 +52,7 @@ export const INITIAL_STATE: InitialState = {
 /* ------------- Thunk ------------- */
 
 export const getPokemonsThunkCreator = (): ThunkAction<
-  typeof GET_POKEMONS | typeof SET_LOADING | typeof SET_CLIENT_ERROR | typeof SET_POKEMONS_DESCRIPTIONS,
+  typeof GET_POKEMONS | typeof SET_LOADING | typeof SET_CLIENT_ERROR,
   Promise<ClientSuccess<PokemonsRespons[]> | ClientError<RequestError>>
 > => async (dispatch) => {
   const api = createAPI();
@@ -102,16 +93,6 @@ export function reducer(state = INITIAL_STATE, action: Actions): InitialState {
         ...state,
         data: undefined,
         error: action.payload
-      };
-    case SET_POKEMONS_DESCRIPTIONS:
-      return {
-        ...state,
-        data:
-          state.data &&
-          state.data.map((pokemon) => ({
-            ...pokemon,
-            description: action.payload.find((elem) => elem.name === pokemon.name)
-          }))
       };
     default:
       return state;
