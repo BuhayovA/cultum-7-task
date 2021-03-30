@@ -92,13 +92,9 @@ export function reducer(state = INITIAL_STATE, action: Actions): InitialState {
         descriptions:
           state.descriptions && state.descriptions.length
             ? state.descriptions.some((description) => description.name === action.payload.name)
-              ? [
-                  ...state.descriptions.filter((description) => description.name !== action.payload.name),
-                  {
-                    ...state.descriptions.find((description) => description.name === action.payload.name),
-                    ...action.payload
-                  }
-                ]
+              ? state.descriptions.map((description) =>
+                  description.name === action.payload.name ? { ...description, ...action.payload } : description
+                )
               : [...state.descriptions, { ...action.payload }]
             : [{ ...action.payload }]
       };
@@ -107,14 +103,9 @@ export function reducer(state = INITIAL_STATE, action: Actions): InitialState {
         ...state,
         descriptions:
           state.descriptions && state.descriptions.length
-            ? [
-                ...state.descriptions.filter((description) => description.name !== action.payload.name),
-                {
-                  ...state.descriptions.find((description) => description.name === action.payload.name),
-                  data: action.payload.data,
-                  name: action.payload.name
-                }
-              ]
+            ? state.descriptions.map((description) =>
+                description.name === action.payload.name ? { ...description, data: action.payload.data } : description
+              )
             : [{ ...action.payload }]
       };
     case SET_DESCRIPTIONS_CLIENT_ERROR:
@@ -123,13 +114,9 @@ export function reducer(state = INITIAL_STATE, action: Actions): InitialState {
         descriptions:
           state.descriptions && state.descriptions.length
             ? state.descriptions.some((description) => description.name === action.payload.name)
-              ? [
-                  ...state.descriptions.filter((description) => description.name !== action.payload.name),
-                  {
-                    ...state.descriptions.find((description) => description.name === action.payload.name),
-                    ...action.payload
-                  }
-                ]
+              ? state.descriptions.map((description) =>
+                  description.name === action.payload.name ? { ...description, ...action.payload } : description
+                )
               : [...state.descriptions, { ...action.payload }]
             : [{ ...action.payload }]
       };
