@@ -62,8 +62,8 @@ const changeState = (state: InitialState, action: Actions) => {
                     loading: action.payload.loading
                   }
                 ]
-              : [...state.descriptions, { name: action.payload.name, loading: action.payload.loading }]
-            : [{ name: action.payload.name, loading: action.payload.loading }]
+              : [...state.descriptions, { ...action.payload }]
+            : [{ ...action.payload }]
       };
     case SET_DESCRIPTIONS:
       return {
