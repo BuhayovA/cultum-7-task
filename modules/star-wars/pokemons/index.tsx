@@ -27,9 +27,18 @@ const PokemonsContainer = () => {
 
   return (
     <ContentWrapper>
-      <ContentLoader position='absolute' isLoading={loading} error={error && clientError(error)}>
+      <ContentLoader position='absolute' isLoading={loading} error={error ? clientError(error) : undefined}>
         <Wrapper>
-          {data && data.map((pokemon, index) => <Card name={pokemon.name} id={pokemon.name} key={index} />)}
+          {data &&
+            data.map((pokemon, index) => (
+              <Card
+                baseExperience={pokemon.descriptions?.base_experience}
+                baseStat={pokemon?.descriptions?.stats.map((stat) => stat.base_stat)}
+                name={pokemon.name}
+                id={pokemon.name}
+                key={index}
+              />
+            ))}
         </Wrapper>
       </ContentLoader>
     </ContentWrapper>

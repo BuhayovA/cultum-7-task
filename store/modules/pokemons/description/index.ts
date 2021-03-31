@@ -11,6 +11,7 @@ import {
 } from '@md-shared/services/api/helpers';
 // types
 import { Pokemon } from '@md-shared/types/pokemon';
+import { SET_POKEMONS_DESCRIPTIONS, setPokemonsDescriptionsAction } from '../pokemons';
 
 /* ------------- Types ------------- */
 
@@ -63,7 +64,10 @@ export const INITIAL_STATE: InitialState = {
 export const getPokemonsDescriptionThunkCreator = (
   query: string
 ): ThunkAction<
-  typeof SET_POKEMONS_DESCRIPTIONS_LOADING | typeof SET_DESCRIPTIONS_CLIENT_ERROR | typeof SET_DESCRIPTIONS,
+  | typeof SET_POKEMONS_DESCRIPTIONS_LOADING
+  | typeof SET_DESCRIPTIONS_CLIENT_ERROR
+  | typeof SET_DESCRIPTIONS
+  | typeof SET_POKEMONS_DESCRIPTIONS,
   Promise<ClientSuccess<Pokemon> | ClientError<RequestError>>
 > => async (dispatch) => {
   const api = createAPI();
@@ -75,6 +79,7 @@ export const getPokemonsDescriptionThunkCreator = (
 
     dispatch(setDescriptionsAction({ data: data, name: query }));
     dispatch(setPokemonsDescriptionsLoadingAction({ loading: false, name: query }));
+    dispatch(setPokemonsDescriptionsAction({ data: data, name: query }));
 
     return clientSuccess(data);
   } catch (err) {
@@ -96,10 +101,10 @@ export function reducer(state = INITIAL_STATE, action: Actions): InitialState {
           state.descriptions && state.descriptions.length
             ? state.descriptions.some((description) => description.name === action.payload.name)
               ? state.descriptions.map((description) =>
-                description.name === action.payload.name ? { ...description, ...action.payload } : description
-              )
-              : [...state.descriptions, { ...action.payload }]
-            : [{ ...action.payload }]
+                  description.name === action.payload.name ? { ...description, ...action.payload } : description
+                )
+              : [...state.descriptions, action.payload]
+            : [action.payload]
       };
     case SET_DESCRIPTIONS:
       return {
@@ -107,9 +112,9 @@ export function reducer(state = INITIAL_STATE, action: Actions): InitialState {
         descriptions:
           state.descriptions && state.descriptions.length
             ? state.descriptions.map((description) =>
-              description.name === action.payload.name ? { ...description, data: action.payload.data } : description
-            )
-            : [{ ...action.payload }]
+                description.name === action.payload.name ? { ...description, data: action.payload.data } : description
+              )
+            : [action.payload]
       };
     case SET_DESCRIPTIONS_CLIENT_ERROR:
       return {
@@ -118,10 +123,10 @@ export function reducer(state = INITIAL_STATE, action: Actions): InitialState {
           state.descriptions && state.descriptions.length
             ? state.descriptions.some((description) => description.name === action.payload.name)
               ? state.descriptions.map((description) =>
-                description.name === action.payload.name ? { ...description, ...action.payload } : description
-              )
-              : [...state.descriptions, { ...action.payload }]
-            : [{ ...action.payload }]
+                  description.name === action.payload.name ? { ...description, ...action.payload } : description
+                )
+              : [...state.descriptions, action.payload]
+            : [action.payload]
       };
     default:
       return state;

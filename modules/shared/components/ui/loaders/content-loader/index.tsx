@@ -9,7 +9,7 @@ import { Wrapper } from './views';
 
 interface Props {
   isLoading: boolean;
-  error: ClientError<string> | undefined;
+  error?: ClientError<string>;
   position?: string;
 }
 

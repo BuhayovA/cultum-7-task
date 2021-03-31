@@ -21,9 +21,11 @@ import { clientError } from '@md-shared/services/api/helpers';
 interface Props {
   id: string;
   name: string;
+  baseStat: number[];
+  baseExperience: number;
 }
 
-const Card: React.FC<Props> = ({ id, name }) => {
+const Card: React.FC<Props> = ({ id, name, baseStat, baseExperience }) => {
   // hooks
   const dispatch = useDispatch<ThunkDispatch>();
 
@@ -50,19 +52,14 @@ const Card: React.FC<Props> = ({ id, name }) => {
         </PokemonLink>
       </CardFooter>
       <ContentLoader
-        isLoading={pokemon && pokemon.loading ? pokemon.loading : false}
+        isLoading={pokemon?.loading ? pokemon.loading : false}
         position='relative'
-        error={pokemon && pokemon.error ? clientError(pokemon.error) : undefined}
+        error={pokemon?.error ? clientError(pokemon.error) : undefined}
       >
-        <DescriptionSection
-          title='Descriptions'
-          content={pokemon && pokemon.data && pokemon.data.base_experience}
-          subTitle='Base Experience'
-        />
-        {pokemon?.data?.stats &&
-          pokemon?.data?.stats.map((i, index) => (
-            <DescriptionSection key={index} content={i.base_stat} subTitle='Base Stat' />
-          ))}
+        <DescriptionSection title='Descriptions' content={baseExperience} subTitle='Base Experience' />
+        {baseStat?.map((stat, index) => (
+          <DescriptionSection key={index} content={stat} subTitle='Base Stat' />
+        ))}
       </ContentLoader>
     </CardWrapper>
   );

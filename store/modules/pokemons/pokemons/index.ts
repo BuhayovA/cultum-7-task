@@ -9,19 +9,22 @@ import {
   getRequestError,
   RequestError
 } from '@md-shared/services/api/helpers';
+import { Pokemon } from '@md-shared/types/pokemon';
 
 /* ------------- Types ------------- */
 
 interface Pokemons {
   name: string;
   url: string;
+  descriptions: Pokemon;
 }
 
-export type PokemonsRespons = Pick<Pokemons, 'name' | 'url'>;
+export type PokemonsRespons = Pick<Pokemons, 'name' | 'url' | 'descriptions'>;
 
 export const GET_POKEMONS = '@ui/pokemons/GET_POKEMONS';
 export const SET_LOADING = '@ui/pokemons/SET_LOADING';
 export const SET_CLIENT_ERROR = '@ui/pokemons/SET_CLIENT_ERROR';
+export const SET_POKEMONS_DESCRIPTIONS = '@ui/pokemons/SET_POKEMONS_DESCRIPTIONS';
 
 /* ------------- Types and Action Creators ------------- */
 
@@ -34,7 +37,13 @@ export type SetClientError = ReturnType<typeof setClientError>;
 export const setLoadingAction = createAction<typeof SET_LOADING, boolean>(SET_LOADING);
 export type SetLoadingAction = ReturnType<typeof setLoadingAction>;
 
-type Actions = SetGetPokemonsAction | SetLoadingAction | SetClientError;
+export const setPokemonsDescriptionsAction = createAction<
+  typeof SET_POKEMONS_DESCRIPTIONS,
+  { data: Pokemon; name: string }
+>(SET_POKEMONS_DESCRIPTIONS);
+export type SetPokemonsDescriptionsAction = ReturnType<typeof setPokemonsDescriptionsAction>;
+
+type Actions = SetGetPokemonsAction | SetLoadingAction | SetClientError | SetPokemonsDescriptionsAction;
 
 /* ------------- Initial State ------------- */
 
@@ -91,8 +100,16 @@ export function reducer(state = INITIAL_STATE, action: Actions): InitialState {
     case SET_CLIENT_ERROR:
       return {
         ...state,
-        data: undefined,
         error: action.payload
+      };
+    case SET_POKEMONS_DESCRIPTIONS:
+      return {
+        ...state,
+        data:
+          state.data &&
+          state.data.map((pokemon) =>
+            pokemon.name === action.payload.name ? { ...pokemon, descriptions: action.payload.data } : pokemon
+          )
       };
     default:
       return state;
