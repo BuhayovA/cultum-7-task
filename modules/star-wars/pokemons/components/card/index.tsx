@@ -54,7 +54,11 @@ const Card: React.FC<Props> = ({ id, name }) => {
         position='relative'
         error={pokemon && pokemon.error ? clientError(pokemon.error) : undefined}
       >
-        <DescriptionSection title='Descriptions' content={pokemon?.data?.base_experience} subTitle='Base Experience' />
+        <DescriptionSection
+          title='Descriptions'
+          content={pokemon && pokemon.data && pokemon.data.base_experience}
+          subTitle='Base Experience'
+        />
         {pokemon?.data?.stats &&
           pokemon?.data?.stats.map((i, index) => (
             <DescriptionSection key={index} content={i.base_stat} subTitle='Base Stat' />
