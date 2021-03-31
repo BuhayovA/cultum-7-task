@@ -27,7 +27,7 @@ const PokemonsContainer = () => {
 
   return (
     <ContentWrapper>
-      <ContentLoader position='absolute' isLoading={loading} error={error ? clientError(error) : undefined}>
+      <ContentLoader position='absolute' isLoading={loading} error={error && clientError(error)}>
         <Wrapper>
           {data && data.map((pokemon, index) => <Card name={pokemon.name} id={pokemon.name} key={index} />)}
         </Wrapper>

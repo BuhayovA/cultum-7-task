@@ -31,7 +31,7 @@ const Card: React.FC<Props> = ({ id, name }) => {
 
   useEffect(() => {
     dispatch(getPokemonsDescriptionThunkCreator(name));
-  }, [dispatch]);
+  }, [dispatch, name]);
 
   // search for the desired element by name
   const pokemon = descriptions && descriptions.find((i) => i.name === name);
