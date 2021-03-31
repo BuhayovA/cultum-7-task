@@ -14,12 +14,14 @@ import { Pokemon } from '@md-shared/types/pokemon';
 
 /* ------------- Types ------------- */
 
-interface Description {
+interface DescriptionType {
   name: string;
   data?: Pokemon;
   loading?: boolean;
   error?: string;
 }
+
+export type Description = Pick<DescriptionType, 'name' | 'data' | 'loading' | 'error'>;
 
 export const SET_POKEMONS_DESCRIPTIONS_LOADING = '@ui/pokemons/SET_POKEMONS_DESCRIPTIONS_LOADING';
 export const SET_DESCRIPTIONS_CLIENT_ERROR = '@ui/pokemons/SET_DESCRIPTIONS_CLIENT_ERROR';
@@ -70,6 +72,7 @@ export const getPokemonsDescriptionThunkCreator = (
 
   try {
     const { data } = await api.getPokemon(query as string);
+
     dispatch(setDescriptionsAction({ data: data, name: query }));
     dispatch(setPokemonsDescriptionsLoadingAction({ loading: false, name: query }));
 

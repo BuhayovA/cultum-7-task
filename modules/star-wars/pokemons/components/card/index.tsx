@@ -27,11 +27,12 @@ const Card: React.FC<Props> = ({ id, name }) => {
   // hooks
   const dispatch = useDispatch<ThunkDispatch>();
 
+  const { descriptions } = useSelector<RootStore, DescriptionsState>(({ pokemons }) => pokemons.descriptions);
+
   useEffect(() => {
     dispatch(getPokemonsDescriptionThunkCreator(name));
   }, [dispatch]);
 
-  const { descriptions } = useSelector<RootStore, DescriptionsState>(({ pokemons }) => pokemons.descriptions);
   // search for the desired element by name
   const pokemon = descriptions && descriptions.find((i) => i.name === name);
 
